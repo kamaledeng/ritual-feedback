@@ -217,7 +217,8 @@ h2 {
 }
 
 .hero-actions,
-.form-footer {
+.form-footer,
+.form-actions {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -410,6 +411,49 @@ h2 {
   padding: clamp(18px, 4vw, 34px);
 }
 
+.survey-progress {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.survey-progress span {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.survey-progress span.active {
+  background: linear-gradient(90deg, var(--gold), var(--mint));
+  box-shadow: 0 0 20px rgba(245, 193, 93, 0.18);
+}
+
+.form-slide {
+  display: none;
+  gap: 18px;
+  animation: slideIn 260ms ease;
+}
+
+.form-slide.active {
+  display: grid;
+}
+
+.slide-heading small {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.slide-heading h3 {
+  margin: 0;
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: clamp(24px, 3vw, 34px);
+  letter-spacing: 0;
+}
+
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -507,6 +551,10 @@ textarea:focus {
   padding-top: 8px;
 }
 
+#submitFeedback {
+  display: none;
+}
+
 .feedback-board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -556,6 +604,17 @@ textarea:focus {
   from { transform: rotate(0deg) scale(1); }
   50% { transform: rotate(180deg) scale(1.08); }
   to { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @media (max-width: 900px) {

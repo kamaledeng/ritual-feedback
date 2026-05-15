@@ -107,22 +107,52 @@
         </div>
 
         <form class="feedback-form" id="feedbackForm">
-          <label>
-            <span>Discord username</span>
-            <input id="discordName" type="text" maxlength="40" placeholder="yourname#1234 or @yourname" required />
-          </label>
+          <div class="survey-progress" aria-label="Survey progress">
+            <span class="active"></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
 
-          <div class="form-row">
+          <div class="form-slide active" data-step="0">
+            <div class="slide-heading">
+              <small>Step 1 of 4</small>
+              <h3>Community identity</h3>
+            </div>
             <label>
-              <span>How do you know Ritual?</span>
-              <select id="stage" required>
-                <option value="Just discovered Ritual">Just discovered Ritual</option>
-                <option value="Read the docs">Read the docs</option>
-                <option value="Tried the testnet">Tried the testnet</option>
-                <option value="Building an idea">Building an idea</option>
-                <option value="Active community member">Active community member</option>
-              </select>
+              <span>Discord username</span>
+              <input id="discordName" type="text" maxlength="40" placeholder="yourname#1234 or @yourname" required />
             </label>
+
+            <div class="form-row">
+              <label>
+                <span>How do you know Ritual?</span>
+                <select id="stage" required>
+                  <option value="Just discovered Ritual">Just discovered Ritual</option>
+                  <option value="Read the docs">Read the docs</option>
+                  <option value="Tried the testnet">Tried the testnet</option>
+                  <option value="Building an idea">Building an idea</option>
+                  <option value="Active community member">Active community member</option>
+                </select>
+              </label>
+              <label>
+                <span>Who are you in the community?</span>
+                <select id="builderType" required>
+                  <option value="Agent builder">Agent builder</option>
+                  <option value="dApp founder">dApp founder</option>
+                  <option value="Researcher">Researcher</option>
+                  <option value="Community">Community</option>
+                  <option value="Investor / observer">Investor / observer</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-slide" data-step="1">
+            <div class="slide-heading">
+              <small>Step 2 of 4</small>
+              <h3>Ritual questions</h3>
+            </div>
             <label>
               <span>Which Ritual area matters most?</span>
               <select id="category" required>
@@ -133,96 +163,90 @@
                 <option value="Community and ecosystem">Community and ecosystem</option>
               </select>
             </label>
+
+            <fieldset class="choice-group">
+              <legend>1. Which Ritual topic should be explained first?</legend>
+              <label>
+                <input type="radio" name="priorityTopic" value="A. How AI agents work on Ritual" required />
+                <span>A. How AI agents work on Ritual</span>
+              </label>
+              <label>
+                <input type="radio" name="priorityTopic" value="B. How to use Ritual testnet and wallet" />
+                <span>B. How to use Ritual testnet and wallet</span>
+              </label>
+              <label>
+                <input type="radio" name="priorityTopic" value="C. How builders can launch apps on Ritual" />
+                <span>C. How builders can launch apps on Ritual</span>
+              </label>
+            </fieldset>
+
+            <fieldset class="choice-group">
+              <legend>2. What would make the community more excited?</legend>
+              <label>
+                <input type="radio" name="communityNeed" value="A. More tutorials and examples" required />
+                <span>A. More tutorials and examples</span>
+              </label>
+              <label>
+                <input type="radio" name="communityNeed" value="B. Clearer roadmap and ecosystem updates" />
+                <span>B. Clearer roadmap and ecosystem updates</span>
+              </label>
+              <label>
+                <input type="radio" name="communityNeed" value="C. Community quests, showcases, and events" />
+                <span>C. Community quests, showcases, and events</span>
+              </label>
+            </fieldset>
           </div>
 
-          <fieldset class="choice-group">
-            <legend>1. Which Ritual topic should be explained first?</legend>
-            <label>
-              <input type="radio" name="priorityTopic" value="A. How AI agents work on Ritual" required />
-              <span>A. How AI agents work on Ritual</span>
-            </label>
-            <label>
-              <input type="radio" name="priorityTopic" value="B. How to use Ritual testnet and wallet" />
-              <span>B. How to use Ritual testnet and wallet</span>
-            </label>
-            <label>
-              <input type="radio" name="priorityTopic" value="C. How builders can launch apps on Ritual" />
-              <span>C. How builders can launch apps on Ritual</span>
-            </label>
-          </fieldset>
+          <div class="form-slide" data-step="2">
+            <div class="slide-heading">
+              <small>Step 3 of 4</small>
+              <h3>Builder context</h3>
+            </div>
+            <fieldset class="choice-group">
+              <legend>3. How easy is Ritual to understand right now?</legend>
+              <label>
+                <input type="radio" name="clarityScore" value="A. Easy, I understand the main idea" required />
+                <span>A. Easy, I understand the main idea</span>
+              </label>
+              <label>
+                <input type="radio" name="clarityScore" value="B. Medium, I understand some parts" />
+                <span>B. Medium, I understand some parts</span>
+              </label>
+              <label>
+                <input type="radio" name="clarityScore" value="C. Hard, I need a simpler explanation" />
+                <span>C. Hard, I need a simpler explanation</span>
+              </label>
+            </fieldset>
 
-          <fieldset class="choice-group">
-            <legend>2. What would make the community more excited?</legend>
-            <label>
-              <input type="radio" name="communityNeed" value="A. More tutorials and examples" required />
-              <span>A. More tutorials and examples</span>
-            </label>
-            <label>
-              <input type="radio" name="communityNeed" value="B. Clearer roadmap and ecosystem updates" />
-              <span>B. Clearer roadmap and ecosystem updates</span>
-            </label>
-            <label>
-              <input type="radio" name="communityNeed" value="C. Community quests, showcases, and events" />
-              <span>C. Community quests, showcases, and events</span>
-            </label>
-          </fieldset>
-
-          <fieldset class="choice-group">
-            <legend>3. How easy is Ritual to understand right now?</legend>
-            <label>
-              <input type="radio" name="clarityScore" value="A. Easy, I understand the main idea" required />
-              <span>A. Easy, I understand the main idea</span>
-            </label>
-            <label>
-              <input type="radio" name="clarityScore" value="B. Medium, I understand some parts" />
-              <span>B. Medium, I understand some parts</span>
-            </label>
-            <label>
-              <input type="radio" name="clarityScore" value="C. Hard, I need a simpler explanation" />
-              <span>C. Hard, I need a simpler explanation</span>
-            </label>
-          </fieldset>
-
-          <label>
-            <span>Short feedback title</span>
-            <input id="title" type="text" maxlength="90" placeholder="Make Ritual easier for new community members" required />
-          </label>
-
-          <label>
-            <span>Open feedback for Ritual</span>
-            <textarea
-              id="message"
-              rows="6"
-              maxlength="900"
-              placeholder="Share what confused you, what you liked, what you want Ritual to build next, or what would help the community."
-              required
-            ></textarea>
-          </label>
-
-          <div class="form-row">
-            <label>
-              <span>What would you build with Ritual?</span>
-              <select id="useCase" required>
-                <option value="Autonomous agent app">Autonomous agent app</option>
-                <option value="AI-powered dApp">AI-powered dApp</option>
-                <option value="On-chain automation">On-chain automation</option>
-                <option value="Community tool">Community tool</option>
-                <option value="Still exploring">Still exploring</option>
-              </select>
-            </label>
-            <label>
-              <span>Biggest blocker right now</span>
-              <select id="blocker" required>
-                <option value="Docs clarity">Docs clarity</option>
-                <option value="Wallet setup">Wallet setup</option>
-                <option value="Examples and tutorials">Examples and tutorials</option>
-                <option value="Community support">Community support</option>
-                <option value="Token or roadmap info">Token or roadmap info</option>
-              </select>
-            </label>
+            <div class="form-row">
+              <label>
+                <span>What would you build with Ritual?</span>
+                <select id="useCase" required>
+                  <option value="Autonomous agent app">Autonomous agent app</option>
+                  <option value="AI-powered dApp">AI-powered dApp</option>
+                  <option value="On-chain automation">On-chain automation</option>
+                  <option value="Community tool">Community tool</option>
+                  <option value="Still exploring">Still exploring</option>
+                </select>
+              </label>
+              <label>
+                <span>Biggest blocker right now</span>
+                <select id="blocker" required>
+                  <option value="Docs clarity">Docs clarity</option>
+                  <option value="Wallet setup">Wallet setup</option>
+                  <option value="Examples and tutorials">Examples and tutorials</option>
+                  <option value="Community support">Community support</option>
+                  <option value="Token or roadmap info">Token or roadmap info</option>
+                </select>
+              </label>
+            </div>
           </div>
 
-          <div class="form-row">
+          <div class="form-slide" data-step="3">
+            <div class="slide-heading">
+              <small>Step 4 of 4</small>
+              <h3>Final feedback</h3>
+            </div>
             <label>
               <span>How important is this?</span>
               <select id="urgency" required>
@@ -231,21 +255,31 @@
                 <option value="Low">Low</option>
               </select>
             </label>
+
             <label>
-              <span>Who are you in the community?</span>
-              <select id="builderType" required>
-                <option value="Agent builder">Agent builder</option>
-                <option value="dApp founder">dApp founder</option>
-                <option value="Researcher">Researcher</option>
-                <option value="Community">Community</option>
-                <option value="Investor / observer">Investor / observer</option>
-              </select>
+              <span>Short feedback title</span>
+              <input id="title" type="text" maxlength="90" placeholder="Make Ritual easier for new community members" required />
+            </label>
+
+            <label>
+              <span>Open feedback for Ritual</span>
+              <textarea
+                id="message"
+                rows="6"
+                maxlength="900"
+                placeholder="Share what confused you, what you liked, what you want Ritual to build next, or what would help the community."
+                required
+              ></textarea>
             </label>
           </div>
 
           <div class="form-footer">
             <p id="formStatus">Connect wallet to attach your address and sign the payload.</p>
-            <button class="primary-action" type="submit">Sign & submit</button>
+            <div class="form-actions">
+              <button class="ghost-action" id="prevStep" type="button">Back</button>
+              <button class="primary-action" id="nextStep" type="button">Next</button>
+              <button class="primary-action" id="submitFeedback" type="submit">Sign & submit</button>
+            </div>
           </div>
         </form>
       </section>

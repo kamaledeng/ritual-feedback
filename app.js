@@ -73,8 +73,15 @@ const elements = {
   formStatus: document.querySelector("#formStatus"),
   feedbackForm: document.querySelector("#feedbackForm"),
   feedbackBoard: document.querySelector("#feedbackBoard"),
-  canvas: document.querySelector("#field")
+  canvas: document.querySelector("#field"),
+  slides: [...document.querySelectorAll(".form-slide")],
+  progressSteps: [...document.querySelectorAll(".survey-progress span")],
+  prevStep: document.querySelector("#prevStep"),
+  nextStep: document.querySelector("#nextStep"),
+  submitFeedback: document.querySelector("#submitFeedback")
 };
+
+let currentStep = 0;
 
 function shortAddress(address) {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -165,6 +172,41 @@ async function sendFeedbackToSheet(payload) {
 
 function getSelectedRadio(name) {
   return document.querySelector(`input[name="${name}"]:checked`)?.value || "";
+}
+
+function updateSlideState() {
+  elements.slides.forEach((slide, index) => {
+    slide.classList.toggle("active", index === currentStep);
+  });
+
+  elements.progressSteps.forEach((step, index) => {
+    step.classList.toggle("active", index <= currentStep);
+  });
+
+  elements.prevStep.style.visibility = currentStep === 0 ? "hidden" : "visible";
+  elements.nextStep.style.display = currentStep === elements.slides.length - 1 ? "none" : "inline-flex";
+  elements.submitFeedback.style.display = currentStep === elements.slides.length - 1 ? "inline-flex" : "none";
+  elements.formStatus.textContent = currentStep === elements.slides.length - 1
+    ? "Connect wallet to sign and send your feedback."
+    : "Complete this section to continue.";
+}
+
+function validateCurrentSlide() {
+  const fields = [...elements.slides[currentStep].querySelectorAll("input, select, textarea")];
+  const invalid = fields.find((field) => !field.checkValidity());
+
+  if (invalid) {
+    invalid.reportValidity();
+    return false;
+  }
+
+  return true;
+}
+
+function goToStep(direction) {
+  if (direction > 0 && !validateCurrentSlide()) return;
+  currentStep = Math.min(Math.max(currentStep + direction, 0), elements.slides.length - 1);
+  updateSlideState();
 }
 
 function renderFeedback() {
@@ -334,6 +376,8 @@ elements.switchRitual.addEventListener("click", async () => {
   }
 });
 elements.feedbackForm.addEventListener("submit", submitFeedback);
+elements.prevStep.addEventListener("click", () => goToStep(-1));
+elements.nextStep.addEventListener("click", () => goToStep(1));
 
 if (getProvider()) {
   getProvider().on?.("chainChanged", refreshNetwork);
@@ -351,4 +395,5 @@ if (getProvider()) {
 }
 
 renderFeedback();
+updateSlideState();
 bootCanvas();
