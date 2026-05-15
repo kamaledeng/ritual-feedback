@@ -32,3 +32,7 @@ and serve the `dist` directory.
 ## Notes
 
 This is a frontend-only feedback prototype. To collect production feedback, connect the submit handler in `app.js` to an API, database, Airtable, Notion, Supabase, or an on-chain contract.
+
+## Google Sheet Endpoint
+
+The current frontend posts signed feedback to a Google Apps Script Web App. If the survey questions change, copy `google-apps-script.js` into Apps Script and deploy a new Web App version so new columns are captured.

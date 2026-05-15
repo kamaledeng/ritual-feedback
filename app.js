@@ -23,7 +23,10 @@ const sampleFeedback = [
     blocker: "Examples and tutorials",
     priorityTopic: "A. How AI agents work on Ritual",
     communityNeed: "A. More tutorials and examples",
+    interestReason: "A. AI agents with on-chain actions",
     clarityScore: "B. Medium, I understand some parts",
+    contentFormat: "B. Step-by-step build tutorials",
+    communityActivity: "B. Builder challenge or mini hackathon",
     title: "Explain agents with a simple community guide",
     message: "A visual recipe for one pending async job per EOA would help builders avoid failed submissions and design better UI states.",
     address: "0xRitual...demo",
@@ -39,7 +42,10 @@ const sampleFeedback = [
     blocker: "Wallet setup",
     priorityTopic: "B. How to use Ritual testnet and wallet",
     communityNeed: "B. Clearer roadmap and ecosystem updates",
+    interestReason: "B. New developer infrastructure for AI apps",
     clarityScore: "B. Medium, I understand some parts",
+    contentFormat: "A. Short videos and visual explainers",
+    communityActivity: "A. Feedback campaign with rewards",
     title: "Make wallet setup feel beginner-proof",
     message: "A small frontend snippet for adding Ritual testnet, checking balance, and signing a feedback payload would make first integration smoother.",
     address: "0xBuilder...demo",
@@ -55,7 +61,10 @@ const sampleFeedback = [
     blocker: "Community support",
     priorityTopic: "C. How builders can launch apps on Ritual",
     communityNeed: "C. Community quests, showcases, and events",
+    interestReason: "C. Community, ecosystem, and future opportunities",
     clarityScore: "A. Easy, I understand the main idea",
+    contentFormat: "C. Live community calls and AMAs",
+    communityActivity: "C. Ambassador or content creator program",
     title: "Create a public showcase for agent apps",
     message: "A curated gallery would help new users understand what autonomous intelligence looks like in production.",
     address: "0xSignal...demo",
@@ -219,7 +228,10 @@ function renderFeedback() {
       <div class="tag-row">
         <span>${item.priorityTopic || item.category}</span>
         <span>${item.communityNeed || item.blocker}</span>
+        <span>${item.interestReason || "Ritual interest"}</span>
         <span>${item.clarityScore || "No score"}</span>
+        <span>${item.contentFormat || "Content format"}</span>
+        <span>${item.communityActivity || "Community activity"}</span>
         <span>${item.stage || "Community signal"}</span>
         <span>${item.urgency}</span>
         <span>${item.useCase || item.builderType}</span>
@@ -257,7 +269,10 @@ async function submitFeedback(event) {
     blocker: document.querySelector("#blocker").value,
     priorityTopic: getSelectedRadio("priorityTopic"),
     communityNeed: getSelectedRadio("communityNeed"),
+    interestReason: getSelectedRadio("interestReason"),
     clarityScore: getSelectedRadio("clarityScore"),
+    contentFormat: getSelectedRadio("contentFormat"),
+    communityActivity: getSelectedRadio("communityActivity"),
     title: document.querySelector("#title").value.trim(),
     message: document.querySelector("#message").value.trim(),
     address: shortAddress(walletAddress),
@@ -275,7 +290,10 @@ async function submitFeedback(event) {
     `Blocker: ${payload.blocker}`,
     `Priority topic: ${payload.priorityTopic}`,
     `Community need: ${payload.communityNeed}`,
+    `Interest reason: ${payload.interestReason}`,
     `Clarity score: ${payload.clarityScore}`,
+    `Content format: ${payload.contentFormat}`,
+    `Community activity: ${payload.communityActivity}`,
     `Community role: ${payload.builderType}`,
     `Title: ${payload.title}`,
     `Message: ${payload.message}`
