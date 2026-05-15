@@ -654,16 +654,17 @@ textarea:focus {
   width: 30px;
   height: 30px;
   place-items: center;
+  overflow: hidden;
   border: 1px solid rgba(245, 193, 93, 0.42);
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 34% 28%, rgba(245, 193, 93, 0.95), transparent 18%),
-    linear-gradient(135deg, rgba(54, 244, 161, 0.92), rgba(10, 18, 38, 0.92));
-  color: #07120d;
-  font-family: "Space Grotesk", Inter, sans-serif;
-  font-size: 13px;
-  font-weight: 800;
+  background: rgba(54, 244, 161, 0.12);
   box-shadow: 0 0 24px rgba(54, 244, 161, 0.2);
+}
+
+.creator-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .creator-credit strong {
