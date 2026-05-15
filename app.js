@@ -313,7 +313,11 @@ async function submitFeedback(event) {
     await sendFeedbackToSheet(signedFeedback);
     saveFeedback({ ...signedFeedback, signature: signedFeedback.signaturePreview });
     elements.feedbackForm.reset();
-    elements.formStatus.textContent = "Signed feedback sent to Google Sheet and added to your local board.";
+    currentStep = 0;
+    updateSlideState();
+    elements.feedbackForm.scrollIntoView({ behavior: "smooth", block: "start" });
+    elements.formStatus.textContent = "Signal received. Your feedback is syncing to the public board.";
+    triggerSuccessEffect();
     renderFeedback();
     setTimeout(loadPublicFeedback, 1200);
   } catch {
@@ -407,6 +411,31 @@ function bootClickEffects() {
       spark.addEventListener("animationend", () => spark.remove(), { once: true });
     }
   });
+}
+
+function triggerSuccessEffect() {
+  const rect = elements.feedbackForm.getBoundingClientRect();
+  const x = rect.left + rect.width / 2;
+  const y = Math.min(rect.top + 120, window.innerHeight - 120);
+  const burst = document.createElement("span");
+  burst.className = "success-burst";
+  burst.style.left = `${x}px`;
+  burst.style.top = `${y}px`;
+  document.body.appendChild(burst);
+  burst.addEventListener("animationend", () => burst.remove(), { once: true });
+
+  for (let i = 0; i < 14; i += 1) {
+    const particle = document.createElement("span");
+    const angle = (Math.PI * 2 * i) / 14;
+    const distance = 56 + Math.random() * 54;
+    particle.className = "success-particle";
+    particle.style.left = `${x}px`;
+    particle.style.top = `${y}px`;
+    particle.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+    particle.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
+    document.body.appendChild(particle);
+    particle.addEventListener("animationend", () => particle.remove(), { once: true });
+  }
 }
 
 elements.connectWallet.addEventListener("click", connectWallet);
