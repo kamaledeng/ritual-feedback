@@ -31,6 +31,7 @@ const elements = {
 };
 
 let currentStep = 0;
+let publicFeedback = [];
 
 function shortAddress(address) {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -97,7 +98,16 @@ async function switchToRitual() {
 }
 
 function loadFeedback() {
-  return JSON.parse(localStorage.getItem("ritual-feedback") || "[]");
+  const localFeedback = JSON.parse(localStorage.getItem("ritual-feedback") || "[]");
+  const merged = [...publicFeedback, ...localFeedback];
+  const seen = new Set();
+
+  return merged.filter((item) => {
+    const key = `${item.discordName || ""}-${item.title || ""}-${item.message || ""}-${item.createdAt || ""}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function saveFeedback(item) {
@@ -116,6 +126,29 @@ async function sendFeedbackToSheet(payload) {
     },
     body: JSON.stringify(payload)
   });
+}
+
+function loadPublicFeedback() {
+  if (!googleSheetEndpoint) return;
+
+  const callbackName = `ritualFeedback_${Date.now()}`;
+  const script = document.createElement("script");
+  const separator = googleSheetEndpoint.includes("?") ? "&" : "?";
+
+  window[callbackName] = (payload) => {
+    publicFeedback = Array.isArray(payload?.feedback) ? payload.feedback : [];
+    renderFeedback();
+    delete window[callbackName];
+    script.remove();
+  };
+
+  script.src = `${googleSheetEndpoint}${separator}callback=${callbackName}`;
+  script.onerror = () => {
+    delete window[callbackName];
+    script.remove();
+  };
+
+  document.body.appendChild(script);
 }
 
 function getSelectedRadio(name) {
@@ -273,6 +306,7 @@ async function submitFeedback(event) {
     elements.feedbackForm.reset();
     elements.formStatus.textContent = "Signed feedback sent to Google Sheet and added to your local board.";
     renderFeedback();
+    setTimeout(loadPublicFeedback, 1200);
   } catch {
     elements.formStatus.textContent = "Feedback was not submitted. Check wallet signature or network access.";
   }
@@ -369,5 +403,6 @@ if (getProvider()) {
 }
 
 renderFeedback();
+loadPublicFeedback();
 updateSlideState();
 bootCanvas();

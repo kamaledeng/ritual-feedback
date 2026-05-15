@@ -63,8 +63,69 @@ function doPost(e) {
   }
 }
 
-function doGet() {
-  return jsonResponse({ ok: true, message: "Ritual Feedback endpoint is running" });
+function doGet(e) {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = getOrCreateSheet(spreadsheet);
+  const callback = e && e.parameter && e.parameter.callback;
+  const payload = {
+    ok: true,
+    message: "Ritual Feedback endpoint is running",
+    feedback: readLatestFeedback(sheet)
+  };
+
+  if (callback) {
+    return ContentService
+      .createTextOutput(`${callback}(${JSON.stringify(payload)})`)
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+
+  return jsonResponse(payload);
+}
+
+function readLatestFeedback(sheet) {
+  const values = sheet.getDataRange().getValues();
+  if (values.length <= 1) return [];
+
+  const headers = values[0];
+  const rows = values.slice(1).reverse().slice(0, 12);
+
+  return rows.map((row) => {
+    const item = {};
+    headers.forEach((header, index) => {
+      item[normalizeHeader(header)] = row[index] instanceof Date
+        ? Utilities.formatDate(row[index], Session.getScriptTimeZone(), "MMM d")
+        : row[index];
+    });
+
+    return {
+      discordName: item.discordUsername || "",
+      walletAddress: item.walletAddress || "",
+      address: item.shortWallet || "",
+      stage: item.stage || "",
+      category: item.category || "",
+      priorityTopic: item.priorityTopic || "",
+      communityNeed: item.communityNeed || "",
+      interestReason: item.interestReason || "",
+      clarityScore: item.clarityScore || "",
+      contentFormat: item.contentFormat || "",
+      communityActivity: item.communityActivity || "",
+      useCase: item.useCase || "",
+      blocker: item.blocker || "",
+      urgency: item.urgency || "",
+      builderType: item.communityRole || "",
+      title: item.title || "",
+      message: item.message || "",
+      signaturePreview: item.signature ? `${String(item.signature).slice(0, 10)}...${String(item.signature).slice(-8)}` : "",
+      createdAt: item.timestamp || ""
+    };
+  });
+}
+
+function normalizeHeader(header) {
+  return String(header)
+    .trim()
+    .replace(/[^a-zA-Z0-9]+(.)/g, (_, char) => char.toUpperCase())
+    .replace(/^[A-Z]/, (char) => char.toLowerCase());
 }
 
 function getOrCreateSheet(spreadsheet) {
