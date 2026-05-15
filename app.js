@@ -383,6 +383,32 @@ function bootCanvas() {
   draw();
 }
 
+function bootClickEffects() {
+  window.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0) return;
+
+    const ripple = document.createElement("span");
+    ripple.className = "click-ripple";
+    ripple.style.left = `${event.clientX}px`;
+    ripple.style.top = `${event.clientY}px`;
+    document.body.appendChild(ripple);
+    ripple.addEventListener("animationend", () => ripple.remove(), { once: true });
+
+    for (let i = 0; i < 6; i += 1) {
+      const spark = document.createElement("span");
+      const angle = (Math.PI * 2 * i) / 6;
+      const distance = 18 + Math.random() * 18;
+      spark.className = "click-spark";
+      spark.style.left = `${event.clientX}px`;
+      spark.style.top = `${event.clientY}px`;
+      spark.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+      spark.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
+      document.body.appendChild(spark);
+      spark.addEventListener("animationend", () => spark.remove(), { once: true });
+    }
+  });
+}
+
 elements.connectWallet.addEventListener("click", connectWallet);
 elements.switchRitual.addEventListener("click", async () => {
   try {
@@ -414,3 +440,4 @@ renderFeedback();
 loadPublicFeedback();
 updateSlideState();
 bootCanvas();
+bootClickEffects();
