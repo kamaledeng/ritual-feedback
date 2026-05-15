@@ -686,6 +686,64 @@ textarea:focus {
   transform: translateY(-2px);
 }
 
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  border: 0;
+  background:
+    radial-gradient(circle at center, rgba(124, 231, 184, 0.14), transparent 28rem),
+    rgba(5, 5, 5, 0.72);
+  color: var(--text);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  backdrop-filter: blur(16px);
+  transition: opacity 240ms ease;
+}
+
+.success-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.success-card {
+  display: grid;
+  gap: 12px;
+  width: min(520px, 100%);
+  padding: clamp(24px, 5vw, 44px);
+  border: 1px solid rgba(245, 193, 93, 0.28);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(245, 193, 93, 0.12), rgba(124, 231, 184, 0.08)),
+    rgba(12, 13, 14, 0.92);
+  text-align: left;
+  box-shadow: 0 32px 120px rgba(0, 0, 0, 0.62);
+  animation: successCardIn 320ms ease both;
+}
+
+.success-card small {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.success-card strong {
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: clamp(32px, 5vw, 54px);
+  line-height: 0.98;
+}
+
+.success-card span {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
 .click-ripple,
 .click-spark,
 .success-burst,
@@ -785,6 +843,17 @@ textarea:focus {
   to {
     opacity: 0;
     transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(0.1);
+  }
+}
+
+@keyframes successCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 

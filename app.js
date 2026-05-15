@@ -28,7 +28,8 @@ const elements = {
   progressSteps: [...document.querySelectorAll(".survey-progress span")],
   prevStep: document.querySelector("#prevStep"),
   nextStep: document.querySelector("#nextStep"),
-  submitFeedback: document.querySelector("#submitFeedback")
+  submitFeedback: document.querySelector("#submitFeedback"),
+  successOverlay: document.querySelector("#successOverlay")
 };
 
 let currentStep = 0;
@@ -316,7 +317,8 @@ async function submitFeedback(event) {
     currentStep = 0;
     updateSlideState();
     elements.feedbackForm.scrollIntoView({ behavior: "smooth", block: "start" });
-    elements.formStatus.textContent = "Signal received. Your feedback is syncing to the public board.";
+    elements.formStatus.textContent = "Thank you for the feedback. Your signal is syncing to the public board.";
+    showSuccessOverlay();
     triggerSuccessEffect();
     renderFeedback();
     setTimeout(loadPublicFeedback, 1200);
@@ -438,6 +440,17 @@ function triggerSuccessEffect() {
   }
 }
 
+function showSuccessOverlay() {
+  elements.successOverlay.classList.add("active");
+}
+
+function closeSuccessOverlay() {
+  elements.successOverlay.classList.remove("active");
+  currentStep = 0;
+  updateSlideState();
+  document.querySelector("#top").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 elements.connectWallet.addEventListener("click", connectWallet);
 elements.switchRitual.addEventListener("click", async () => {
   try {
@@ -449,6 +462,7 @@ elements.switchRitual.addEventListener("click", async () => {
 elements.feedbackForm.addEventListener("submit", submitFeedback);
 elements.prevStep.addEventListener("click", () => goToStep(-1));
 elements.nextStep.addEventListener("click", () => goToStep(1));
+elements.successOverlay.addEventListener("click", closeSuccessOverlay);
 
 if (getProvider()) {
   getProvider().on?.("chainChanged", refreshNetwork);
