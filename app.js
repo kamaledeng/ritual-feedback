@@ -12,27 +12,36 @@ const ritualChain = {
 
 const sampleFeedback = [
   {
+    stage: "Read the docs",
     category: "Developer docs",
     urgency: "High",
     builderType: "Agent builder",
-    title: "Add a one-page async lifecycle cookbook",
+    useCase: "Autonomous agent app",
+    blocker: "Examples and tutorials",
+    title: "Explain async jobs with a simple lifecycle",
     message: "A visual recipe for one pending async job per EOA would help builders avoid failed submissions and design better UI states.",
     address: "0xRitual...demo",
     createdAt: "Demo"
   },
   {
-    category: "Wallet flow",
+    stage: "Tried the testnet",
+    category: "Wallet and testnet",
     urgency: "Medium",
     builderType: "dApp founder",
-    title: "Expose RitualWallet balance examples",
-    message: "A small frontend snippet for depositing, locking, and reading balances would make first integration smoother.",
+    useCase: "AI-powered dApp",
+    blocker: "Wallet setup",
+    title: "Make wallet setup feel beginner-proof",
+    message: "A small frontend snippet for adding Ritual testnet, checking balance, and signing a feedback payload would make first integration smoother.",
     address: "0xBuilder...demo",
     createdAt: "Demo"
   },
   {
-    category: "Ecosystem",
+    stage: "Active community member",
+    category: "Community and ecosystem",
     urgency: "Low",
     builderType: "Community",
+    useCase: "Community tool",
+    blocker: "Community support",
     title: "Create a public showcase for agent apps",
     message: "A curated gallery would help new users understand what autonomous intelligence looks like in production.",
     address: "0xSignal...demo",
@@ -135,8 +144,10 @@ function renderFeedback() {
       <h3>${escapeHtml(item.title)}</h3>
       <p>${escapeHtml(item.message)}</p>
       <div class="tag-row">
+        <span>${item.stage || "Community signal"}</span>
         <span>${item.urgency}</span>
-        <span>${item.builderType}</span>
+        <span>${item.useCase || item.builderType}</span>
+        <span>${item.blocker || item.category}</span>
         <span>${item.address}</span>
       </div>
     </article>
@@ -162,9 +173,12 @@ async function submitFeedback(event) {
   if (!walletAddress) return;
 
   const payload = {
+    stage: document.querySelector("#stage").value,
     category: document.querySelector("#category").value,
     urgency: document.querySelector("#urgency").value,
     builderType: document.querySelector("#builderType").value,
+    useCase: document.querySelector("#useCase").value,
+    blocker: document.querySelector("#blocker").value,
     title: document.querySelector("#title").value.trim(),
     message: document.querySelector("#message").value.trim(),
     address: shortAddress(walletAddress),
@@ -174,8 +188,12 @@ async function submitFeedback(event) {
   const signatureMessage = [
     "Ritual Feedback",
     `Address: ${walletAddress}`,
+    `Stage: ${payload.stage}`,
     `Category: ${payload.category}`,
     `Urgency: ${payload.urgency}`,
+    `Use case: ${payload.useCase}`,
+    `Blocker: ${payload.blocker}`,
+    `Community role: ${payload.builderType}`,
     `Title: ${payload.title}`,
     `Message: ${payload.message}`
   ].join("\n");

@@ -105,36 +105,71 @@
         </div>
 
         <form class="feedback-form" id="feedbackForm">
+          <div class="form-row">
+            <label>
+              <span>How do you know Ritual?</span>
+              <select id="stage" required>
+                <option value="Just discovered Ritual">Just discovered Ritual</option>
+                <option value="Read the docs">Read the docs</option>
+                <option value="Tried the testnet">Tried the testnet</option>
+                <option value="Building an idea">Building an idea</option>
+                <option value="Active community member">Active community member</option>
+              </select>
+            </label>
+            <label>
+              <span>Which Ritual area matters most?</span>
+              <select id="category" required>
+                <option value="AI agents">AI agents</option>
+                <option value="Developer docs">Developer docs</option>
+                <option value="Wallet and testnet">Wallet and testnet</option>
+                <option value="Ritual Chain">Ritual Chain</option>
+                <option value="Community and ecosystem">Community and ecosystem</option>
+              </select>
+            </label>
+          </div>
+
           <label>
-            <span>Product area</span>
-            <select id="category" required>
-              <option value="Developer docs">Developer docs</option>
-              <option value="Wallet flow">Wallet flow</option>
-              <option value="Ritual Chain">Ritual Chain</option>
-              <option value="Foundation">Foundation</option>
-              <option value="Ecosystem">Ecosystem</option>
-            </select>
+            <span>What is the first thing Ritual should make easier?</span>
+            <input id="title" type="text" maxlength="90" placeholder="Understanding how AI agents work on Ritual" required />
           </label>
 
           <label>
-            <span>Feedback title</span>
-            <input id="title" type="text" maxlength="90" placeholder="Make async jobs easier to track" required />
-          </label>
-
-          <label>
-            <span>What should improve?</span>
+            <span>What confused you, blocked you, or made you curious?</span>
             <textarea
               id="message"
               rows="6"
               maxlength="900"
-              placeholder="Describe the problem, why it matters, and what would make the experience stronger."
+              placeholder="Tell Ritual what you saw, what you expected, and what would make the experience clearer for the community."
               required
             ></textarea>
           </label>
 
           <div class="form-row">
             <label>
-              <span>Urgency</span>
+              <span>What would you build with Ritual?</span>
+              <select id="useCase" required>
+                <option value="Autonomous agent app">Autonomous agent app</option>
+                <option value="AI-powered dApp">AI-powered dApp</option>
+                <option value="On-chain automation">On-chain automation</option>
+                <option value="Community tool">Community tool</option>
+                <option value="Still exploring">Still exploring</option>
+              </select>
+            </label>
+            <label>
+              <span>Biggest blocker right now</span>
+              <select id="blocker" required>
+                <option value="Docs clarity">Docs clarity</option>
+                <option value="Wallet setup">Wallet setup</option>
+                <option value="Examples and tutorials">Examples and tutorials</option>
+                <option value="Community support">Community support</option>
+                <option value="Token or roadmap info">Token or roadmap info</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="form-row">
+            <label>
+              <span>How important is this?</span>
               <select id="urgency" required>
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
@@ -142,12 +177,13 @@
               </select>
             </label>
             <label>
-              <span>Builder type</span>
+              <span>Who are you in the community?</span>
               <select id="builderType" required>
                 <option value="Agent builder">Agent builder</option>
                 <option value="dApp founder">dApp founder</option>
                 <option value="Researcher">Researcher</option>
                 <option value="Community">Community</option>
+                <option value="Investor / observer">Investor / observer</option>
               </select>
             </label>
           </div>
