@@ -561,10 +561,32 @@ textarea:focus {
   gap: 16px;
 }
 
+.feedback-board:has(.empty-board) {
+  grid-template-columns: 1fr;
+}
+
 .feedback-board article {
   min-height: 240px;
   padding: 22px;
   background: var(--panel-strong);
+}
+
+.feedback-board .empty-board {
+  display: grid;
+  min-height: 260px;
+  align-content: center;
+  justify-items: start;
+  background:
+    linear-gradient(135deg, rgba(245, 193, 93, 0.08), rgba(124, 231, 184, 0.07)),
+    var(--panel-strong);
+}
+
+.empty-board h3 {
+  font-size: clamp(26px, 3vw, 38px);
+}
+
+.empty-board p {
+  max-width: 620px;
 }
 
 .feedback-board h3 {

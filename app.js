@@ -12,66 +12,6 @@ const ritualChain = {
 
 const googleSheetEndpoint = "https://script.google.com/macros/s/AKfycbym8DPcJvEkbPf-W6yYSFGcqfLR1UGFAf_uTONLnRr5BpJzRT75ZZ__LfuVhukyD-D7/exec";
 
-const sampleFeedback = [
-  {
-    discordName: "@ritual_builder",
-    stage: "Read the docs",
-    category: "Developer docs",
-    urgency: "High",
-    builderType: "Agent builder",
-    useCase: "Autonomous agent app",
-    blocker: "Examples and tutorials",
-    priorityTopic: "A. How AI agents work on Ritual",
-    communityNeed: "A. More tutorials and examples",
-    interestReason: "A. AI agents with on-chain actions",
-    clarityScore: "B. Medium, I understand some parts",
-    contentFormat: "B. Step-by-step build tutorials",
-    communityActivity: "B. Builder challenge or mini hackathon",
-    title: "Explain agents with a simple community guide",
-    message: "A visual recipe for one pending async job per EOA would help builders avoid failed submissions and design better UI states.",
-    address: "0xRitual...demo",
-    createdAt: "Demo"
-  },
-  {
-    discordName: "@testnet_founder",
-    stage: "Tried the testnet",
-    category: "Wallet and testnet",
-    urgency: "Medium",
-    builderType: "dApp founder",
-    useCase: "AI-powered dApp",
-    blocker: "Wallet setup",
-    priorityTopic: "B. How to use Ritual testnet and wallet",
-    communityNeed: "B. Clearer roadmap and ecosystem updates",
-    interestReason: "B. New developer infrastructure for AI apps",
-    clarityScore: "B. Medium, I understand some parts",
-    contentFormat: "A. Short videos and visual explainers",
-    communityActivity: "A. Feedback campaign with rewards",
-    title: "Make wallet setup feel beginner-proof",
-    message: "A small frontend snippet for adding Ritual testnet, checking balance, and signing a feedback payload would make first integration smoother.",
-    address: "0xBuilder...demo",
-    createdAt: "Demo"
-  },
-  {
-    discordName: "@ritual_signal",
-    stage: "Active community member",
-    category: "Community and ecosystem",
-    urgency: "Low",
-    builderType: "Community",
-    useCase: "Community tool",
-    blocker: "Community support",
-    priorityTopic: "C. How builders can launch apps on Ritual",
-    communityNeed: "C. Community quests, showcases, and events",
-    interestReason: "C. Community, ecosystem, and future opportunities",
-    clarityScore: "A. Easy, I understand the main idea",
-    contentFormat: "C. Live community calls and AMAs",
-    communityActivity: "C. Ambassador or content creator program",
-    title: "Create a public showcase for agent apps",
-    message: "A curated gallery would help new users understand what autonomous intelligence looks like in production.",
-    address: "0xSignal...demo",
-    createdAt: "Demo"
-  }
-];
-
 let walletAddress = "";
 
 const elements = {
@@ -157,8 +97,7 @@ async function switchToRitual() {
 }
 
 function loadFeedback() {
-  const stored = JSON.parse(localStorage.getItem("ritual-feedback") || "[]");
-  return [...stored, ...sampleFeedback];
+  return JSON.parse(localStorage.getItem("ritual-feedback") || "[]");
 }
 
 function saveFeedback(item) {
@@ -220,6 +159,23 @@ function goToStep(direction) {
 
 function renderFeedback() {
   const feedback = loadFeedback();
+
+  if (feedback.length === 0) {
+    elements.feedbackBoard.innerHTML = `
+      <article class="empty-board">
+        <small>Awaiting community signal</small>
+        <h3>No signed feedback yet</h3>
+        <p>Once community members complete the survey and sign with their wallet, their feedback will appear here.</p>
+        <div class="tag-row">
+          <span>Wallet signed</span>
+          <span>Discord attached</span>
+          <span>Google Sheet synced</span>
+        </div>
+      </article>
+    `;
+    return;
+  }
+
   elements.feedbackBoard.innerHTML = feedback.map((item) => `
     <article>
       <small>${escapeHtml(item.discordName || "Unknown Discord")} · ${item.createdAt}</small>
