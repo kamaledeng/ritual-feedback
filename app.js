@@ -172,7 +172,7 @@ async function submitFeedback(event) {
   };
 
   const signatureMessage = [
-    "Ritual Feedback Lab",
+    "Ritual Feedback",
     `Address: ${walletAddress}`,
     `Category: ${payload.category}`,
     `Urgency: ${payload.urgency}`,

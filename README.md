@@ -1,4 +1,4 @@
-# Ritual Feedback Lab
+# Ritual Feedback
 
 Premium feedback web app concept for the Ritual ecosystem.
 
