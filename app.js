@@ -12,36 +12,48 @@ const ritualChain = {
 
 const sampleFeedback = [
   {
+    discordName: "@ritual_builder",
     stage: "Read the docs",
     category: "Developer docs",
     urgency: "High",
     builderType: "Agent builder",
     useCase: "Autonomous agent app",
     blocker: "Examples and tutorials",
-    title: "Explain async jobs with a simple lifecycle",
+    priorityTopic: "A. How AI agents work on Ritual",
+    communityNeed: "A. More tutorials and examples",
+    clarityScore: "B. Medium, I understand some parts",
+    title: "Explain agents with a simple community guide",
     message: "A visual recipe for one pending async job per EOA would help builders avoid failed submissions and design better UI states.",
     address: "0xRitual...demo",
     createdAt: "Demo"
   },
   {
+    discordName: "@testnet_founder",
     stage: "Tried the testnet",
     category: "Wallet and testnet",
     urgency: "Medium",
     builderType: "dApp founder",
     useCase: "AI-powered dApp",
     blocker: "Wallet setup",
+    priorityTopic: "B. How to use Ritual testnet and wallet",
+    communityNeed: "B. Clearer roadmap and ecosystem updates",
+    clarityScore: "B. Medium, I understand some parts",
     title: "Make wallet setup feel beginner-proof",
     message: "A small frontend snippet for adding Ritual testnet, checking balance, and signing a feedback payload would make first integration smoother.",
     address: "0xBuilder...demo",
     createdAt: "Demo"
   },
   {
+    discordName: "@ritual_signal",
     stage: "Active community member",
     category: "Community and ecosystem",
     urgency: "Low",
     builderType: "Community",
     useCase: "Community tool",
     blocker: "Community support",
+    priorityTopic: "C. How builders can launch apps on Ritual",
+    communityNeed: "C. Community quests, showcases, and events",
+    clarityScore: "A. Easy, I understand the main idea",
     title: "Create a public showcase for agent apps",
     message: "A curated gallery would help new users understand what autonomous intelligence looks like in production.",
     address: "0xSignal...demo",
@@ -136,18 +148,24 @@ function saveFeedback(item) {
   localStorage.setItem("ritual-feedback", JSON.stringify([item, ...stored].slice(0, 12)));
 }
 
+function getSelectedRadio(name) {
+  return document.querySelector(`input[name="${name}"]:checked`)?.value || "";
+}
+
 function renderFeedback() {
   const feedback = loadFeedback();
   elements.feedbackBoard.innerHTML = feedback.map((item) => `
     <article>
-      <small>${item.category} · ${item.createdAt}</small>
+      <small>${escapeHtml(item.discordName || "Unknown Discord")} · ${item.createdAt}</small>
       <h3>${escapeHtml(item.title)}</h3>
       <p>${escapeHtml(item.message)}</p>
       <div class="tag-row">
+        <span>${item.priorityTopic || item.category}</span>
+        <span>${item.communityNeed || item.blocker}</span>
+        <span>${item.clarityScore || "No score"}</span>
         <span>${item.stage || "Community signal"}</span>
         <span>${item.urgency}</span>
         <span>${item.useCase || item.builderType}</span>
-        <span>${item.blocker || item.category}</span>
         <span>${item.address}</span>
       </div>
     </article>
@@ -173,12 +191,16 @@ async function submitFeedback(event) {
   if (!walletAddress) return;
 
   const payload = {
+    discordName: document.querySelector("#discordName").value.trim(),
     stage: document.querySelector("#stage").value,
     category: document.querySelector("#category").value,
     urgency: document.querySelector("#urgency").value,
     builderType: document.querySelector("#builderType").value,
     useCase: document.querySelector("#useCase").value,
     blocker: document.querySelector("#blocker").value,
+    priorityTopic: getSelectedRadio("priorityTopic"),
+    communityNeed: getSelectedRadio("communityNeed"),
+    clarityScore: getSelectedRadio("clarityScore"),
     title: document.querySelector("#title").value.trim(),
     message: document.querySelector("#message").value.trim(),
     address: shortAddress(walletAddress),
@@ -188,11 +210,15 @@ async function submitFeedback(event) {
   const signatureMessage = [
     "Ritual Feedback",
     `Address: ${walletAddress}`,
+    `Discord: ${payload.discordName}`,
     `Stage: ${payload.stage}`,
     `Category: ${payload.category}`,
     `Urgency: ${payload.urgency}`,
     `Use case: ${payload.useCase}`,
     `Blocker: ${payload.blocker}`,
+    `Priority topic: ${payload.priorityTopic}`,
+    `Community need: ${payload.communityNeed}`,
+    `Clarity score: ${payload.clarityScore}`,
     `Community role: ${payload.builderType}`,
     `Title: ${payload.title}`,
     `Message: ${payload.message}`

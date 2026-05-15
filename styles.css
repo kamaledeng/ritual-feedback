@@ -448,6 +448,54 @@ textarea:focus {
   box-shadow: 0 0 0 4px rgba(245, 193, 93, 0.1);
 }
 
+.choice-group {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.choice-group legend {
+  padding: 0 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.choice-group label {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  cursor: pointer;
+}
+
+.choice-group label:has(input:checked) {
+  border-color: rgba(245, 193, 93, 0.78);
+  background: rgba(245, 193, 93, 0.1);
+}
+
+.choice-group input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--gold);
+}
+
+.choice-group span {
+  margin: 0;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
 .form-footer {
   justify-content: space-between;
   padding-top: 8px;

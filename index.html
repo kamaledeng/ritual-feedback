@@ -105,6 +105,11 @@
         </div>
 
         <form class="feedback-form" id="feedbackForm">
+          <label>
+            <span>Discord username</span>
+            <input id="discordName" type="text" maxlength="40" placeholder="yourname#1234 or @yourname" required />
+          </label>
+
           <div class="form-row">
             <label>
               <span>How do you know Ritual?</span>
@@ -128,18 +133,66 @@
             </label>
           </div>
 
+          <fieldset class="choice-group">
+            <legend>1. Which Ritual topic should be explained first?</legend>
+            <label>
+              <input type="radio" name="priorityTopic" value="A. How AI agents work on Ritual" required />
+              <span>A. How AI agents work on Ritual</span>
+            </label>
+            <label>
+              <input type="radio" name="priorityTopic" value="B. How to use Ritual testnet and wallet" />
+              <span>B. How to use Ritual testnet and wallet</span>
+            </label>
+            <label>
+              <input type="radio" name="priorityTopic" value="C. How builders can launch apps on Ritual" />
+              <span>C. How builders can launch apps on Ritual</span>
+            </label>
+          </fieldset>
+
+          <fieldset class="choice-group">
+            <legend>2. What would make the community more excited?</legend>
+            <label>
+              <input type="radio" name="communityNeed" value="A. More tutorials and examples" required />
+              <span>A. More tutorials and examples</span>
+            </label>
+            <label>
+              <input type="radio" name="communityNeed" value="B. Clearer roadmap and ecosystem updates" />
+              <span>B. Clearer roadmap and ecosystem updates</span>
+            </label>
+            <label>
+              <input type="radio" name="communityNeed" value="C. Community quests, showcases, and events" />
+              <span>C. Community quests, showcases, and events</span>
+            </label>
+          </fieldset>
+
+          <fieldset class="choice-group">
+            <legend>3. How easy is Ritual to understand right now?</legend>
+            <label>
+              <input type="radio" name="clarityScore" value="A. Easy, I understand the main idea" required />
+              <span>A. Easy, I understand the main idea</span>
+            </label>
+            <label>
+              <input type="radio" name="clarityScore" value="B. Medium, I understand some parts" />
+              <span>B. Medium, I understand some parts</span>
+            </label>
+            <label>
+              <input type="radio" name="clarityScore" value="C. Hard, I need a simpler explanation" />
+              <span>C. Hard, I need a simpler explanation</span>
+            </label>
+          </fieldset>
+
           <label>
-            <span>What is the first thing Ritual should make easier?</span>
-            <input id="title" type="text" maxlength="90" placeholder="Understanding how AI agents work on Ritual" required />
+            <span>Short feedback title</span>
+            <input id="title" type="text" maxlength="90" placeholder="Make Ritual easier for new community members" required />
           </label>
 
           <label>
-            <span>What confused you, blocked you, or made you curious?</span>
+            <span>Open feedback for Ritual</span>
             <textarea
               id="message"
               rows="6"
               maxlength="900"
-              placeholder="Tell Ritual what you saw, what you expected, and what would make the experience clearer for the community."
+              placeholder="Share what confused you, what you liked, what you want Ritual to build next, or what would help the community."
               required
             ></textarea>
           </label>
