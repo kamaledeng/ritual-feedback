@@ -10,6 +10,8 @@ const ritualChain = {
   blockExplorerUrls: ["https://explorer.ritualfoundation.org"]
 };
 
+const googleSheetEndpoint = "https://script.google.com/macros/s/AKfycbym8DPcJvEkbPf-W6yYSFGcqfLR1UGFAf_uTONLnRr5BpJzRT75ZZ__LfuVhukyD-D7/exec";
+
 const sampleFeedback = [
   {
     discordName: "@ritual_builder",
@@ -148,6 +150,19 @@ function saveFeedback(item) {
   localStorage.setItem("ritual-feedback", JSON.stringify([item, ...stored].slice(0, 12)));
 }
 
+async function sendFeedbackToSheet(payload) {
+  if (!googleSheetEndpoint) return;
+
+  await fetch(googleSheetEndpoint, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(payload)
+  });
+}
+
 function getSelectedRadio(name) {
   return document.querySelector(`input[name="${name}"]:checked`)?.value || "";
 }
@@ -230,12 +245,20 @@ async function submitFeedback(event) {
       params: [signatureMessage, walletAddress]
     });
 
-    saveFeedback({ ...payload, signature: `${signature.slice(0, 10)}...${signature.slice(-8)}` });
+    const signedFeedback = {
+      ...payload,
+      walletAddress,
+      signature,
+      signaturePreview: `${signature.slice(0, 10)}...${signature.slice(-8)}`
+    };
+
+    await sendFeedbackToSheet(signedFeedback);
+    saveFeedback({ ...signedFeedback, signature: signedFeedback.signaturePreview });
     elements.feedbackForm.reset();
-    elements.formStatus.textContent = "Signed feedback added to your local board.";
+    elements.formStatus.textContent = "Signed feedback sent to Google Sheet and added to your local board.";
     renderFeedback();
   } catch {
-    elements.formStatus.textContent = "Signature rejected. Feedback was not submitted.";
+    elements.formStatus.textContent = "Feedback was not submitted. Check wallet signature or network access.";
   }
 }
 
