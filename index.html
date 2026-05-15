@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A premium wallet-connected feedback experience for the Ritual ecosystem."
+    />
+    <title>Ritual Feedback Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="field" aria-hidden="true"></canvas>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Ritual Feedback Lab">
+        <span class="brand-mark">R</span>
+        <span>Ritual Feedback Lab</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#feedback">Feedback</a>
+        <a href="#signals">Signals</a>
+        <a href="https://docs.ritualfoundation.org/" target="_blank" rel="noreferrer">Docs</a>
+      </nav>
+      <button class="wallet-button" id="connectWallet" type="button">
+        <span class="wallet-dot"></span>
+        <span id="walletLabel">Connect wallet</span>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Community feedback for autonomous intelligence</p>
+          <h1>Shape the Ritual experience before agents become institutions.</h1>
+          <p class="hero-text">
+            Submit wallet-signed product feedback, surface ecosystem signals, and switch straight into
+            Ritual testnet from one focused interface.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#feedback">Send feedback</a>
+            <button class="ghost-action" id="switchRitual" type="button">Add Ritual network</button>
+          </div>
+        </div>
+
+        <div class="chain-console" aria-label="Ritual network console">
+          <div class="console-top">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="console-grid">
+            <div>
+              <small>Chain</small>
+              <strong>Ritual Testnet</strong>
+            </div>
+            <div>
+              <small>ID</small>
+              <strong>1979</strong>
+            </div>
+            <div>
+              <small>RPC</small>
+              <strong>rpc.ritualfoundation.org</strong>
+            </div>
+            <div>
+              <small>Status</small>
+              <strong id="networkStatus">Waiting for wallet</strong>
+            </div>
+          </div>
+          <div class="pulse-map">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="signal-band" id="signals" aria-label="Ritual integration signals">
+        <article>
+          <span>01</span>
+          <h2>Wallet-native</h2>
+          <p>Connect, verify address, and sign feedback before it enters the board.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h2>Ritual-ready</h2>
+          <p>One click adds or switches to Ritual testnet using the official chain parameters.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h2>Founder-grade signal</h2>
+          <p>Every post is structured by product area, urgency, and expected user impact.</p>
+        </article>
+      </section>
+
+      <section class="feedback-section" id="feedback">
+        <div class="section-heading">
+          <p class="eyebrow">Feedback desk</p>
+          <h2>Send a clear signal to Ritual.</h2>
+        </div>
+
+        <form class="feedback-form" id="feedbackForm">
+          <label>
+            <span>Product area</span>
+            <select id="category" required>
+              <option value="Developer docs">Developer docs</option>
+              <option value="Wallet flow">Wallet flow</option>
+              <option value="Ritual Chain">Ritual Chain</option>
+              <option value="Foundation">Foundation</option>
+              <option value="Ecosystem">Ecosystem</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Feedback title</span>
+            <input id="title" type="text" maxlength="90" placeholder="Make async jobs easier to track" required />
+          </label>
+
+          <label>
+            <span>What should improve?</span>
+            <textarea
+              id="message"
+              rows="6"
+              maxlength="900"
+              placeholder="Describe the problem, why it matters, and what would make the experience stronger."
+              required
+            ></textarea>
+          </label>
+
+          <div class="form-row">
+            <label>
+              <span>Urgency</span>
+              <select id="urgency" required>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </label>
+            <label>
+              <span>Builder type</span>
+              <select id="builderType" required>
+                <option value="Agent builder">Agent builder</option>
+                <option value="dApp founder">dApp founder</option>
+                <option value="Researcher">Researcher</option>
+                <option value="Community">Community</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="form-footer">
+            <p id="formStatus">Connect wallet to attach your address and sign the payload.</p>
+            <button class="primary-action" type="submit">Sign & submit</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="board-section" aria-label="Feedback board">
+        <div class="section-heading">
+          <p class="eyebrow">Live board</p>
+          <h2>Latest signed feedback</h2>
+        </div>
+        <div class="feedback-board" id="feedbackBoard"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Built for Ritual community feedback.</span>
+      <a href="https://ritual.net/" target="_blank" rel="noreferrer">Ritual Labs</a>
+      <a href="https://www.ritualfoundation.com/" target="_blank" rel="noreferrer">Foundation</a>
+      <a href="https://explorer.ritualfoundation.org/" target="_blank" rel="noreferrer">Explorer</a>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
