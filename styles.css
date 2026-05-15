@@ -236,6 +236,14 @@ h2 {
   margin-top: 34px;
 }
 
+.hero-status {
+  max-width: 560px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
 .primary-action {
   display: inline-flex;
   align-items: center;

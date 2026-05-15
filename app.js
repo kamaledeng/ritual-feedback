@@ -19,6 +19,7 @@ const elements = {
   walletLabel: document.querySelector("#walletLabel"),
   switchRitual: document.querySelector("#switchRitual"),
   networkStatus: document.querySelector("#networkStatus"),
+  heroStatus: document.querySelector("#heroStatus"),
   formStatus: document.querySelector("#formStatus"),
   feedbackForm: document.querySelector("#feedbackForm"),
   feedbackBoard: document.querySelector("#feedbackBoard"),
@@ -41,10 +42,15 @@ function getProvider() {
   return window.ethereum;
 }
 
+function setWalletStatus(message) {
+  elements.heroStatus.textContent = message;
+  elements.formStatus.textContent = message;
+}
+
 async function connectWallet() {
   const provider = getProvider();
   if (!provider) {
-    elements.formStatus.textContent = "Install MetaMask or another EIP-1193 wallet first.";
+    setWalletStatus("Wallet not detected. Open this site in a browser with MetaMask or Rabby.");
     return;
   }
 
@@ -53,7 +59,7 @@ async function connectWallet() {
   if (walletAddress) {
     elements.connectWallet.classList.add("connected");
     elements.walletLabel.textContent = shortAddress(walletAddress);
-    elements.formStatus.textContent = "Wallet connected. Your feedback can now be signed.";
+    setWalletStatus("Wallet connected. Your feedback can now be signed.");
     await refreshNetwork();
   }
 }
@@ -74,9 +80,11 @@ async function refreshNetwork() {
 async function switchToRitual() {
   const provider = getProvider();
   if (!provider) {
-    elements.formStatus.textContent = "Wallet not found. Install a browser wallet first.";
+    setWalletStatus("Wallet not detected. Open this site in a browser with MetaMask or Rabby.");
     return;
   }
+
+  setWalletStatus("Opening wallet request for Ritual Testnet...");
 
   try {
     await provider.request({
@@ -95,6 +103,7 @@ async function switchToRitual() {
   }
 
   await refreshNetwork();
+  setWalletStatus("Ritual Testnet is ready in your wallet.");
 }
 
 function loadFeedback() {
@@ -378,9 +387,8 @@ elements.connectWallet.addEventListener("click", connectWallet);
 elements.switchRitual.addEventListener("click", async () => {
   try {
     await switchToRitual();
-    elements.formStatus.textContent = "Ritual network is ready in your wallet.";
   } catch {
-    elements.formStatus.textContent = "Could not switch network. Check wallet permissions.";
+    setWalletStatus("Could not switch network. Check wallet permissions or try Connect wallet first.");
   }
 });
 elements.feedbackForm.addEventListener("submit", submitFeedback);
