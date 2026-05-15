@@ -104,12 +104,19 @@ textarea {
   border-radius: 8px;
   background: #36f4a1;
   box-shadow: 0 0 24px rgba(54, 244, 161, 0.22);
+  animation: ritualSpin 14s linear infinite;
+  transform-origin: center;
 }
 
 .brand-mark img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.brand:hover .brand-mark {
+  animation-play-state: paused;
+  transform: rotate(0deg) scale(1.04);
 }
 
 .nav-links {
@@ -627,7 +634,10 @@ textarea:focus {
   right: 18px;
   bottom: 16px;
   z-index: 6;
-  padding: 10px 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 12px 8px 8px;
   border: 1px solid rgba(124, 231, 184, 0.28);
   border-radius: 999px;
   background: rgba(5, 5, 5, 0.72);
@@ -636,6 +646,24 @@ textarea:focus {
   line-height: 1;
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.34);
   backdrop-filter: blur(16px);
+  animation: creditFloat 4.5s ease-in-out infinite;
+}
+
+.creator-avatar {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid rgba(245, 193, 93, 0.42);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(245, 193, 93, 0.95), transparent 18%),
+    linear-gradient(135deg, rgba(54, 244, 161, 0.92), rgba(10, 18, 38, 0.92));
+  color: #07120d;
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 0 24px rgba(54, 244, 161, 0.2);
 }
 
 .creator-credit strong {
@@ -645,12 +673,23 @@ textarea:focus {
 .creator-credit:hover {
   border-color: rgba(245, 193, 93, 0.58);
   color: var(--text);
+  transform: translateY(-2px);
+}
+
+@keyframes ritualSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes orbit {
   from { transform: rotate(0deg) scale(1); }
   50% { transform: rotate(180deg) scale(1.08); }
   to { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes creditFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 }
 
 @keyframes slideIn {
