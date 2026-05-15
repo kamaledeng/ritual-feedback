@@ -622,6 +622,31 @@ textarea:focus {
   color: var(--text);
 }
 
+.creator-credit {
+  position: fixed;
+  right: 18px;
+  bottom: 16px;
+  z-index: 6;
+  padding: 10px 13px;
+  border: 1px solid rgba(124, 231, 184, 0.28);
+  border-radius: 999px;
+  background: rgba(5, 5, 5, 0.72);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(16px);
+}
+
+.creator-credit strong {
+  color: var(--text);
+}
+
+.creator-credit:hover {
+  border-color: rgba(245, 193, 93, 0.58);
+  color: var(--text);
+}
+
 @keyframes orbit {
   from { transform: rotate(0deg) scale(1); }
   50% { transform: rotate(180deg) scale(1.08); }
@@ -686,5 +711,11 @@ textarea:focus {
 
   .pulse-map {
     height: 220px;
+  }
+
+  .creator-credit {
+    right: 12px;
+    bottom: 10px;
+    font-size: 12px;
   }
 }
