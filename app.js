@@ -29,7 +29,8 @@ const elements = {
   prevStep: document.querySelector("#prevStep"),
   nextStep: document.querySelector("#nextStep"),
   submitFeedback: document.querySelector("#submitFeedback"),
-  successOverlay: document.querySelector("#successOverlay")
+  successOverlay: document.querySelector("#successOverlay"),
+  shareX: document.querySelector("#shareX")
 };
 
 let currentStep = 0;
@@ -330,6 +331,23 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function buildShareUrl(feedback) {
+  const pageUrl = `${window.location.origin}${window.location.pathname}`;
+  const shareText = [
+    "I just signed feedback for Ritual Feedback.",
+    "Helping shape what builders and community members need from Ritual.",
+    feedback?.category ? `Signal: ${feedback.category}` : "",
+    "#Ritual #AI #Web3"
+  ].filter(Boolean).join("\n\n");
+
+  const params = new URLSearchParams({
+    text: shareText,
+    url: pageUrl
+  });
+
+  return `https://x.com/intent/tweet?${params.toString()}`;
+}
+
 async function submitFeedback(event) {
   event.preventDefault();
 
@@ -399,6 +417,7 @@ async function submitFeedback(event) {
     updateSlideState();
     elements.feedbackForm.scrollIntoView({ behavior: "smooth", block: "start" });
     elements.formStatus.textContent = "Thank you for the feedback. Your signal is syncing to the public board.";
+    elements.shareX.href = buildShareUrl(signedFeedback);
     showSuccessOverlay();
     triggerSuccessEffect();
     renderFeedback();
@@ -543,7 +562,10 @@ elements.switchRitual.addEventListener("click", async () => {
 elements.feedbackForm.addEventListener("submit", submitFeedback);
 elements.prevStep.addEventListener("click", () => goToStep(-1));
 elements.nextStep.addEventListener("click", () => goToStep(1));
-elements.successOverlay.addEventListener("click", closeSuccessOverlay);
+elements.successOverlay.addEventListener("click", (event) => {
+  if (event.target === elements.successOverlay) closeSuccessOverlay();
+});
+elements.shareX.addEventListener("click", (event) => event.stopPropagation());
 
 if (getProvider()) {
   getProvider().on?.("chainChanged", refreshNetwork);

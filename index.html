@@ -359,13 +359,16 @@
       <span>Made by <strong>kamalz</strong></span>
     </a>
 
-    <button class="success-overlay" id="successOverlay" type="button" aria-label="Close success message">
-      <span class="success-card">
+    <div class="success-overlay" id="successOverlay" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+      <div class="success-card">
         <small>Signal received</small>
-        <strong>Thank you for the feedback.</strong>
-        <span>Your signal helps shape Ritual. Click anywhere to return to the start.</span>
-      </span>
-    </button>
+        <strong id="successTitle">Thank you for the feedback.</strong>
+        <span>Your signal helps shape Ritual. Share your signed feedback signal or click anywhere outside this card to return to the start.</span>
+        <a class="share-x-action" id="shareX" href="https://x.com/intent/tweet" target="_blank" rel="noreferrer">
+          Share to X
+        </a>
+      </div>
+    </div>
 
     <script src="app.js"></script>
   </body>
