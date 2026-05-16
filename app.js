@@ -165,6 +165,87 @@ function getSelectedRadio(name) {
   return document.querySelector(`input[name="${name}"]:checked`)?.value || "";
 }
 
+function closeSelectMenu(wrapper) {
+  wrapper.classList.remove("open");
+  wrapper.querySelector(".custom-select-button")?.setAttribute("aria-expanded", "false");
+}
+
+function closeSelectMenus(exceptWrapper) {
+  document.querySelectorAll(".custom-select.open").forEach((wrapper) => {
+    if (wrapper !== exceptWrapper) closeSelectMenu(wrapper);
+  });
+}
+
+function enhanceSelectMenus() {
+  document.querySelectorAll("select").forEach((select) => {
+    if (select.dataset.enhanced === "true") return;
+
+    select.dataset.enhanced = "true";
+    select.classList.add("native-select");
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "custom-select";
+
+    const button = document.createElement("button");
+    button.className = "custom-select-button";
+    button.type = "button";
+    button.setAttribute("aria-haspopup", "listbox");
+    button.setAttribute("aria-expanded", "false");
+
+    const menu = document.createElement("div");
+    menu.className = "custom-select-menu";
+    menu.setAttribute("role", "listbox");
+
+    const syncSelectedOption = () => {
+      const selectedOption = select.options[select.selectedIndex];
+      button.textContent = selectedOption?.textContent || "Select an option";
+
+      menu.querySelectorAll(".custom-select-option").forEach((optionButton) => {
+        const isSelected = optionButton.dataset.value === select.value;
+        optionButton.classList.toggle("selected", isSelected);
+        optionButton.setAttribute("aria-selected", String(isSelected));
+      });
+    };
+
+    [...select.options].forEach((option) => {
+      const optionButton = document.createElement("button");
+      optionButton.className = "custom-select-option";
+      optionButton.type = "button";
+      optionButton.setAttribute("role", "option");
+      optionButton.dataset.value = option.value;
+      optionButton.textContent = option.textContent;
+
+      optionButton.addEventListener("click", () => {
+        select.value = option.value;
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+        syncSelectedOption();
+        closeSelectMenu(wrapper);
+        button.focus();
+      });
+
+      menu.appendChild(optionButton);
+    });
+
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const shouldOpen = !wrapper.classList.contains("open");
+      closeSelectMenus(wrapper);
+      wrapper.classList.toggle("open", shouldOpen);
+      button.setAttribute("aria-expanded", String(shouldOpen));
+    });
+
+    select.addEventListener("change", syncSelectedOption);
+    wrapper.append(button, menu);
+    select.insertAdjacentElement("afterend", wrapper);
+    syncSelectedOption();
+  });
+
+  document.addEventListener("click", () => closeSelectMenus());
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeSelectMenus();
+  });
+}
+
 function updateSlideState() {
   elements.slides.forEach((slide, index) => {
     slide.classList.toggle("active", index === currentStep);
@@ -221,27 +302,27 @@ function renderFeedback() {
 
   elements.feedbackBoard.innerHTML = feedback.map((item) => `
     <article>
-      <small>${escapeHtml(item.discordName || "Unknown Discord")} · ${item.createdAt}</small>
+      <small>${escapeHtml(item.discordName || "Unknown Discord")} &middot; ${escapeHtml(item.createdAt || "")}</small>
       <h3>${escapeHtml(item.title)}</h3>
       <p>${escapeHtml(item.message)}</p>
       <div class="tag-row">
-        <span>${item.priorityTopic || item.category}</span>
-        <span>${item.communityNeed || item.blocker}</span>
-        <span>${item.interestReason || "Ritual interest"}</span>
-        <span>${item.clarityScore || "No score"}</span>
-        <span>${item.contentFormat || "Content format"}</span>
-        <span>${item.communityActivity || "Community activity"}</span>
-        <span>${item.stage || "Community signal"}</span>
-        <span>${item.urgency}</span>
-        <span>${item.useCase || item.builderType}</span>
-        <span>${item.address}</span>
+        <span>${escapeHtml(item.priorityTopic || item.category || "")}</span>
+        <span>${escapeHtml(item.communityNeed || item.blocker || "")}</span>
+        <span>${escapeHtml(item.interestReason || "Ritual interest")}</span>
+        <span>${escapeHtml(item.clarityScore || "No score")}</span>
+        <span>${escapeHtml(item.contentFormat || "Content format")}</span>
+        <span>${escapeHtml(item.communityActivity || "Community activity")}</span>
+        <span>${escapeHtml(item.stage || "Community signal")}</span>
+        <span>${escapeHtml(item.urgency || "")}</span>
+        <span>${escapeHtml(item.useCase || item.builderType || "")}</span>
+        <span>${escapeHtml(item.address || "")}</span>
       </div>
     </article>
   `).join("");
 }
 
 function escapeHtml(value) {
-  return value
+  return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -481,6 +562,7 @@ if (getProvider()) {
 
 renderFeedback();
 loadPublicFeedback();
+enhanceSelectMenus();
 updateSlideState();
 bootCanvas();
 bootClickEffects();
